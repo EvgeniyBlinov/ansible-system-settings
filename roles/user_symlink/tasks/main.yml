@@ -1,0 +1,12 @@
+#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
+---
+- name: user_symlink | Create symlink to current_user
+  shell: |
+      export USERNAME=$(id -u -n) ;\
+      export HOMEDIR=$(eval echo "~$(id -u -n)") ;\
+      sudo -E \
+      ln -n -s $HOMEDIR /home/user
+  args:
+    chdir: /home
+    executable: /bin/bash
+  ignore_errors: yes

@@ -4,4 +4,5 @@
   #gather_facts: False
   roles:
     #- gitconfig
-    - openbox
+    #- openbox
+    - user_symlink
