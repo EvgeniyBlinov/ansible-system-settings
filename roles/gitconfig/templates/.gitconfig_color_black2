@@ -1,0 +1,22 @@
+# vim: set noet ci pi sts=0 sw=4 ts=4 :
+; [include]
+;     path = ~/.gitconfig_color_black2
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = auto
+	interactive = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = cyan bold
+	changed = red
+	untracked = magenta bold

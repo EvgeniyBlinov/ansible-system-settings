@@ -1,0 +1,6 @@
+.python
+
+inventory/*
+!inventory/localhost
+
+.env

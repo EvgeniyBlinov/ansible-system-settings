@@ -1,0 +1,17 @@
+#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
+---
+- name: gitconfig | Generate .gitconfig
+  blockinfile:
+    dest: ~/.gitconfig
+    marker: ";; {mark} ANSIBLE MANAGED BLOCK FOR gitconfig"
+    block: "{{ lookup('template', '.gitconfig') }}"
+    create: yes
+
+- name: gitconfig | Generate .gitconfig parts
+  template:
+    src: "{{ item }}"
+    dest: "~/{{ item }}"
+  with_items:
+    - .gitconfig_color_white
+    - .gitconfig_color_black
+    - .gitconfig_color_black2
