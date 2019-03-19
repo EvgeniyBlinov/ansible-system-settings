@@ -15,13 +15,12 @@ all:  build
 
 .PHONY: build
 build:               \
-		.env         \
+		.env-include \
 		requirements \
 		.python/bin/activate
 
-#  TODO:  <17-03-19, Evgeniy Blinov <evgeniy_blinov@mail.ru>> # add make variable INVENTORY_NAME
 .env:
-	export INVENTORY_NAMES="$$(ls -1 inventory/ | xargs -n 1 basename)" ;    \
+	@export INVENTORY_NAMES="$$(ls -1 inventory/ | xargs -n 1 basename)" ;    \
 	if [ 1 -lt "$$(echo $$INVENTORY_NAMES | awk '{print NF; exit}')" ]; then \
 		select INVENTORY_NAME in $$INVENTORY_NAMES; do                       \
 			export INVENTORY_NAME=$$INVENTORY_NAME ;                         \
@@ -30,8 +29,12 @@ build:               \
 	else                                                                     \
 		export INVENTORY_NAME=$$INVENTORY_NAMES ;                            \
 	fi ;                                                                     \
-	echo "INVENTORY_NAME=$$INVENTORY_NAME" > $@;                             \
-	echo $$INVENTORY_NAME ;
+	echo "INVENTORY_NAME=$$INVENTORY_NAME" > $@;
+
+.PHONY: .env-include
+.env-include: .env
+	$(eval INVENTORY_NAME := $(shell awk -F= '/INVENTORY_NAME/ {print $$2}' .env))
+	@echo "INVENTORY_NAME=$(INVENTORY_NAME)" ;
 
 .PHONY: .env-update
 .env-update:
