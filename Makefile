@@ -45,6 +45,14 @@ build:                       \
 			line=$$(cat ./$(DOTENV_DIST)|grep "^$$line="); \
 			param=$${line%=*}; \
 			def=$${line#*=}; \
+			[ -z "$def" ] && def=''; \
+			read -ei "$$def" -p "$$param:" val < /dev/tty; \
+			echo $$param=$$val; \
+		done >> .env
+
+.PHONY: change-inventory
+change-inventory:
+	@export INVENTORY_NAMES="$$(ls -1 inventory/ | xargs -n 1 basename)" ;    \
 	if [ 1 -lt "$$(echo $$INVENTORY_NAMES | awk '{print NF; exit}')" ]; then \
 		select INVENTORY_NAME in $$INVENTORY_NAMES; do                       \
 			export INVENTORY_NAME=$$INVENTORY_NAME ;                         \
