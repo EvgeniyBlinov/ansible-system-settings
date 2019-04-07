@@ -1,0 +1,83 @@
+#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
+---
+#######################  install  ######################################
+- name: Configure | Create ssh keys
+  shell: |
+    ! test -f {{ item }} &&
+    mkdir -p $(dirname {{ item }}) &&
+    ssh-keygen -b 4096 -f {{ item }} -q -N ""
+  args:
+    executable: /bin/bash
+    creates: "{{ item }}"
+    warn: false
+  with_items: "{{
+    ssh_config__services |
+    json_query('[*].hosts[*].key') |
+    flatten
+  }}"
+  tags:
+    - install
+
+- name: Configure | Ensure config.d is exists
+  file:
+    path: "{{ ssh_config__dir }}"
+    state: directory
+    mode: 0755
+  tags:
+    - install
+
+- name: Configure | Ensure Makefile is exists
+  blockinfile:
+    path: ~/.ssh/Makefile
+    block: "{{ lookup('template', 'Makefile') }}"
+    state: present
+    insertbefore: BOF
+    create: yes
+    backup: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR ssh_config"
+
+  # @TODO:  <07-04-19, Evgeniy Blinov <evgeniy_blinov@mail.ru>> # refactor settings
+- name: Configure | ssh_config settings
+  shell:
+    cmd: |
+      # Create settings if not found some settings
+      grep '^(Server|TCPKeepAlive|Control).*' -qP  {{ ssh_config__dir }}/* || \
+      cat > {{ ssh_config__dir }}/00_settings <<- 'EOF'
+      # vim: set noet ci pi sts=0 sw=4 ts=4 :
+      TCPKeepAlive={{ ssh_config__settings.TCPKeepAlive }}
+      ServerAliveInterval={{ ssh_config__settings.ServerAliveInterval }}
+      ServerAliveCountMax={{ ssh_config__settings.ServerAliveCountMax }}
+      Compression={{ ssh_config__settings.Compression }}
+      ControlMaster {{ ssh_config__settings.ControlMaster }}
+      ControlPath {{ ssh_config__settings.ControlPath }}
+      ControlPersist {{ ssh_config__settings.ControlPersist }}
+      EOF
+  args:
+    executable: /bin/bash
+
+- name: Configure | Install ssh config
+  template:
+    src: ssh_config
+    dest: "{{ ssh_config__item_name_prefix }}{{ item.name }}"
+  with_items: "{{ ssh_config__services }}"
+  tags:
+    - install
+
+- name: Configure | Make ssh config
+  shell: |
+    cp {{ ssh_config__config_path }} {{ ssh_config__config_path }}-$(date +%s).bak 2> /dev/null ; \
+    cat {{ ssh_config__dir }}/* > {{ ssh_config__config_path }}
+  tags:
+    - install
+#######################  install  ######################################
+
+#######################  uninstall  ####################################
+
+- name: Configure | Uninstall ssh config
+  file:
+    dest: "{{ ssh_config__item_name_prefix }}{{ item.name }}"
+    state: absent
+  with_items: "{{ ssh_config__rm_services }}"
+  tags:
+    - uninstall
+#######################  uninstall  ####################################

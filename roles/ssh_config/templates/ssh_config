@@ -1,0 +1,23 @@
+# vim: set noet ci pi sts=0 sw=4 ts=4 :
+########################################################################
+{% for host in item.hosts %}
+{%- if host.description is defined -%}
+# {{ host.description }}{{ "\n" }}
+{%- endif -%}
+Host {{ host.host }}{{ "\n" }}
+  {%- if host.ip is defined -%}
+  {{ "\t" }}HostName {{ host.ip }}{{ "\n" }}
+  {%- endif -%}
+  {%- if host.user is defined -%}
+  {{ "\t" }}User {{ host.user | default('root', true)}}{{ "\n" }}
+  {%- endif -%}
+  {%- if host.port is defined -%}
+  {{ "\t" }}Port {{ host.port | default(22, true) }}{{ "\n" }}
+  {%- endif -%}
+  {%- if host.key is defined  -%}
+  {{ "\t" }}IdentityFile {{ host.key }}{{ "\n" }}
+  {%- endif -%}
+{{ "\n" }}
+{% endfor %}
+########################################################################
+
