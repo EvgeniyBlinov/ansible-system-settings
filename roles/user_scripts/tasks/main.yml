@@ -1,0 +1,20 @@
+#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
+---
+- name: openbox | Get config path
+  shell: |
+    ps ax | \
+    grep -oP '(?:openbox).*--config-file\s+\S+' |\
+    awk '{print $NF}'
+  args:
+    executable: /bin/bash
+  register: openbox__r_config_file
+
+- set_fact:
+    openbox__config_file: "{{ openbox__r_config_file.stdout }}"
+  when: openbox__config_file is not defined
+
+- name: openbox | Generate openbox config
+  template: 
+    src: lxde-rc.xml
+    dest: "{{ openbox__config_file }}"
+    backup: yes
