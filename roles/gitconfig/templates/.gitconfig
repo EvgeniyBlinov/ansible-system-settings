@@ -25,5 +25,7 @@
 	tool = vimdiff
 [difftool]
 	prompt = false
+[merge]
+	tool = vimdiff
 [include]
 	path = ~/.gitconfig_color_black2
