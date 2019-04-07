@@ -4,16 +4,17 @@ ABSOLUTE_PATH=`readlink -m ${SCRIPT_PATH}`
 ROOT_PATH=`readlink -m ${ABSOLUTE_PATH}/..`
 INVENTORY_NAME=${INVENTORY_NAME:-localhost}
 PLAYBOOK_NAME="$1"
-PARAMS="$@"
 
 source $ROOT_PATH/.env
 
 (
 cd $ROOT_PATH &&
-    source $ROOT_PATH/.python/bin/activate && \
-    time \
-    ansible-playbook \
-    -i inventory/${INVENTORY_NAME}/hosts.ini \
-    $PARAMS && \
+    source $ROOT_PATH/.python/bin/activate &&             \
+    time                                                  \
+    ansible-playbook                                      \
+    -i inventory/${INVENTORY_NAME}/hosts.ini              \
+    -e inventory_dir="$(pwd)/inventory/${INVENTORY_NAME}" \
+    -e ansible_root_dir="$(pwd)"                          \
+    "$@" &&                                               \
     deactivate
 )
