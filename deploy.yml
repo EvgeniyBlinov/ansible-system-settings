@@ -3,7 +3,7 @@
 - hosts: localhost
   #gather_facts: False
   roles:
-    #- gitconfig
-    #- openbox
-    #- user_symlink
+    - gitconfig
+    - openbox
+    - user_symlink
     - ssh_config

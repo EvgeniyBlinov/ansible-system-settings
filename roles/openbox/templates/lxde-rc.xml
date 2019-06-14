@@ -198,7 +198,7 @@
     </keybind>
     <keybind key="W-z">
       <action name="Execute">
-        <command>/bin/bash /SETTINGS/home/user/myscripts/SYSTEM/touchpad_toggle.sh</command>
+          <command>/bin/bash /home/user/.local/bin/touchpad_toggle.sh</command>
       </action>
     </keybind>
     <keybind key="W-r">
@@ -307,7 +307,7 @@
     </keybind>
     <keybind key="W-l">
       <action name="Execute">
-        <command>/bin/bash /home/user/myscripts/SYSTEM/X/screen_lock.sh</command>
+        <command>dm-tool lock</command>
       </action>
     </keybind>
     <!--  Media -->
