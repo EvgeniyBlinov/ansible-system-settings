@@ -1,20 +1,27 @@
 #  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
 ---
-- name: openbox | Get config path
+- name: user_scripts | Get user home path
   shell: |
-    ps ax | \
-    grep -oP '(?:openbox).*--config-file\s+\S+' |\
-    awk '{print $NF}'
+      export USERNAME=$(id -u -n) ;\
+      export HOMEDIR=$(eval echo "~$(id -u -n)") ;\
+      echo $HOMEDIR
   args:
+    chdir: /home
     executable: /bin/bash
-  register: openbox__r_config_file
+  register: user_symlink__r_user_home
 
 - set_fact:
-    openbox__config_file: "{{ openbox__r_config_file.stdout }}"
-  when: openbox__config_file is not defined
+    ansible_user_home: "{{ user_symlink__r_user_home.stdout }}"
 
-- name: openbox | Generate openbox config
-  template: 
-    src: lxde-rc.xml
-    dest: "{{ openbox__config_file }}"
-    backup: yes
+- name: user_scripts | Create dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ ansible_user_home }}/.local/bin"
+
+- name: user_scripts | Copy files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_home }}/.local/bin/{{ item | basename }}"
+  loop: "{{ lookup('fileglob', role_path + '/files/*', wantlist=True) }}"
