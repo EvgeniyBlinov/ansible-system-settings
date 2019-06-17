@@ -24,4 +24,5 @@
   copy:
     src: "{{ item }}"
     dest: "{{ ansible_user_home }}/.local/bin/{{ item | basename }}"
+    mode: +x
   loop: "{{ lookup('fileglob', role_path + '/files/*', wantlist=True) }}"

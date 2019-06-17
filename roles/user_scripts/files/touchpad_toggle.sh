@@ -1,6 +1,14 @@
 #!/bin/bash
+# @requirements: xinput
 
-DEVICE_PATTERN='DELL.*Touchpad'
+PROBE_1='DELL.*Touchpad'
+PROBE_2='Touchpad'
+
+if xinput list | grep -q $PROBE_1 ; then
+    DEVICE_PATTERN=$PROBE_1
+elif xinput list | grep -q $PROBE_2 ; then
+    DEVICE_PATTERN=$PROBE_2
+fi
 
 DEVICE_STATUS=$(xinput list |
     grep $DEVICE_PATTERN |
