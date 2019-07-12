@@ -1,6 +1,6 @@
 # vim: set noet ci pi sts=0 sw=4 ts=4 :
 [user]
-	name = {{ gitconfig__name }}
+	name = '{{ gitconfig__name }}'
 	email = {{ gitconfig__email }}
 [push]
 	default = current

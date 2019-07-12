@@ -3,5 +3,5 @@
 ansible_python_interpreter: "{{ playbook_dir }}/.python/bin/python"
 ansible_connection: local
 ########################################################################
-gitconfig__name: "Blinov Evgeniy"
-gitconfig__email: evgeniy_blinov@mail.ru
+gitconfig__name: "{{ lookup('ENV', 'GITCONFIG__NAME') | default('Evgeniy Blinov', True) }}"
+gitconfig__email: "{{ lookup('ENV', 'GITCONFIG__EMAIL') | default('evgeniy_blinov@mail.ru', True) }}"
