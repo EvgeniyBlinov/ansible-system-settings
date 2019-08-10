@@ -1,4 +1,5 @@
 # vim: set noet ci pi sts=0 sw=4 ts=4 :
+# {{ ansible_managed }}
 # http://www.gnu.org/software/make/manual/make.html
 # http://linuxlib.ru/prog/make_379_manual.html
 SHELL:=/bin/bash
@@ -19,4 +20,12 @@ generate_config:
 {{ ssh_config__dir }}:
 	mkdir -p $@
 
+.PHONY: env
+env:
+	if test -L {{ ssh_config__dir }} ; then                        \
+		rm {{ ssh_config__dir }} ;                                 \
+	fi ;                                                           \
+	if test -d {{ ssh_config__dir }}_$(ENV) ; then                 \
+		ln -s {{ ssh_config__dir }}_$(ENV) {{ ssh_config__dir }} ; \
+	fi
 
