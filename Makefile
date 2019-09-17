@@ -92,6 +92,7 @@ python-requrements:
 	pip3 install $$(cat ./requirements.txt*)
 
 $(ANSIBLE_VAULT_PASSWORD_FILE):
+	test -d $$(dirname $@) || mkdir -p $$(dirname $@)
 	cat /dev/urandom |head|base64 -w0|tr -dc _A-Z-a-z-0-9|head -c 64 > $@
 	chmod 600 $@
 
