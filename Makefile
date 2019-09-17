@@ -20,6 +20,7 @@ build:                       \
 		.env-include         \
 		requirements         \
 		.python/bin/activate \
+		python-requrements   \
 		$(ANSIBLE_VAULT_PASSWORD_FILE)
 
 
