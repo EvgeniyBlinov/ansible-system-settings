@@ -15,7 +15,7 @@ set +o allexport
 
 ########################################################################
 INVENTORY_NAME=${INVENTORY_NAME:-localhost}
-INVENTORY=${INVENTORY:-inventory/${INVENTORY_NAME}/hosts.ini}
+INVENTORY=${INVENTORY:-inventory/${INVENTORY_NAME}}
 PLAYBOOK_NAME="$1"
 
 FIRST_ARG_EXT=${PLAYBOOK_NAME##*.}

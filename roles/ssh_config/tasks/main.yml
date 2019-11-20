@@ -20,9 +20,12 @@
 
 - name: Configure | Ensure config.d is exists
   file:
-    path: "{{ ssh_config__dir }}"
+    path: "{{ item }}"
     state: directory
     mode: 0755
+  loop:
+    - "{{ ssh_config__dir }}"
+    - "{{ ssh_config__dir_path }}"
   tags:
     - install
 
@@ -41,12 +44,16 @@
   shell:
     cmd: |
       # Create settings if not found some settings
-      grep '^(Server|TCPKeepAlive|Control).*' -qP  {{ ssh_config__dir }}/* || \
-      cat > {{ ssh_config__dir }}/00_settings <<- 'EOF'
+      grep '^(Server|TCPKeepAlive|Control).*' -qP  {{ ssh_config__dir_path }}/* || \
+      cat > {{ ssh_config__dir_path }}/00_settings <<- 'EOF'
       # vim: set noet ci pi sts=0 sw=4 ts=4 :
       TCPKeepAlive={{ ssh_config__settings.TCPKeepAlive }}
+      {% if ssh_config__settings.ServerAliveInterval is defined %}
       ServerAliveInterval={{ ssh_config__settings.ServerAliveInterval }}
+      {% endif %}
+      {% if ssh_config__settings.ServerAliveCountMax is defined %}
       ServerAliveCountMax={{ ssh_config__settings.ServerAliveCountMax }}
+      {% endif %}
       Compression={{ ssh_config__settings.Compression }}
       ControlMaster {{ ssh_config__settings.ControlMaster }}
       ControlPath {{ ssh_config__settings.ControlPath }}
@@ -58,7 +65,8 @@
 - name: Configure | Install ssh config
   template:
     src: ssh_config
-    dest: "{{ ssh_config__item_name_prefix }}{{ item.name }}"
+    dest: >-
+      {{ ssh_config__dir_path }}/{{ item.priority | default(ssh_config__priority, True) }}-{{ ssh_config__prefix }}{{ item.name }}
   with_items: "{{ ssh_config__services }}"
   tags:
     - install
@@ -66,7 +74,7 @@
 - name: Configure | Make ssh config
   shell: |
     cp {{ ssh_config__config_path }} {{ ssh_config__config_path }}-$(date +%s).bak 2> /dev/null ; \
-    cat {{ ssh_config__dir }}/* > {{ ssh_config__config_path }}
+    cat {{ ssh_config__dir_path }}/* > {{ ssh_config__config_path }}
   tags:
     - install
 #######################  install  ######################################

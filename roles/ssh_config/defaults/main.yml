@@ -2,11 +2,14 @@ ssh_config__services: []
 ssh_config__rm_services: []
 
 ssh_config__prefix: ''
-ssh_config__priority: 99
+ssh_config__priority: 80
 
 ssh_config__dir: ~/.ssh/config.d
+ssh_config__env: default
+ssh_config__dir_path: "{{ ssh_config__dir }}_{{ ssh_config__env }}"
+
 ssh_config__config_path: ~/.ssh/config
-ssh_config__item_name_prefix: "{{ ssh_config__dir }}/{{ ssh_config__priority }}-{{ ssh_config__prefix }}"
+ssh_config__item_name_prefix: "{{ ssh_config__dir_path }}/{{ ssh_config__priority }}-{{ ssh_config__prefix }}"
 
 ssh_config__settings:
   TCPKeepAlive: 'yes'
