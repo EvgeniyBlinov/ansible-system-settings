@@ -7,3 +7,7 @@
 - name: galaxy-cent-openbox-config
   src: https://github.com/EvgeniyBlinov/ansible-role-cent-openbox-config.git
   version: master
+
+- name: galaxy-ssh-config
+  src: https://github.com/EvgeniyBlinov/ansible-role-ssh-config.git
+  version: master
