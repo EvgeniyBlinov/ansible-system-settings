@@ -21,7 +21,8 @@ build:                       \
 		requirements         \
 		.python/bin/activate \
 		python-requrements   \
-		$(ANSIBLE_VAULT_PASSWORD_FILE)
+		$(ANSIBLE_VAULT_PASSWORD_FILE) \
+		ansible-requirements
 
 
 .env:
@@ -95,5 +96,12 @@ $(ANSIBLE_VAULT_PASSWORD_FILE):
 	test -d $$(dirname $@) || mkdir -p $$(dirname $@)
 	cat /dev/urandom |head|base64 -w0|tr -dc _A-Z-a-z-0-9|head -c 64 > $@
 	chmod 600 $@
+
+########################################################################
+
+.PHONY: ansible-requirements
+ansible-requirements:
+	source .python/bin/activate && \
+	ansible-galaxy install -r roles/requirements.yml
 
 ########################################################################

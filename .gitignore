@@ -3,4 +3,6 @@
 inventory/*
 !inventory/localhost
 
+roles/galaxy-*
+
 .env

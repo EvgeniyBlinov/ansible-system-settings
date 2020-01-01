@@ -1,0 +1,9 @@
+## ansible-galaxy install -r roles/requirements.yml
+
+- name: galaxy-user-settings
+  src: https://github.com/EvgeniyBlinov/ansible-role-user-settings.git
+  version: master
+
+- name: galaxy-cent-openbox-config
+  src: https://github.com/EvgeniyBlinov/ansible-role-cent-openbox-config.git
+  version: master
