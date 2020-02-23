@@ -17,3 +17,5 @@
       tags: vim-tmux
     - role: galaxy-lxterminal
       tags: lxterminal
+    - role: galaxy-cent-scripts
+      tags: cent-scripts

@@ -15,3 +15,7 @@
 - name: galaxy-lxterminal
   src: https://github.com/EvgeniyBlinov/ansible-role-cent-lxterminal.git
   version: master
+
+- name: galaxy-cent-scripts
+  src: https://github.com/EvgeniyBlinov/ansible-role-cent-scripts.git
+  version: master
