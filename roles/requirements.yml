@@ -11,3 +11,7 @@
 - name: galaxy-ssh-config
   src: https://github.com/EvgeniyBlinov/ansible-role-ssh-config.git
   version: master
+
+- name: galaxy-lxterminal
+  src: https://github.com/EvgeniyBlinov/ansible-role-cent-lxterminal.git
+  version: master

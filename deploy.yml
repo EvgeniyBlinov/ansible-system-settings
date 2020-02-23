@@ -11,7 +11,9 @@
       tags: user_scripts
     - role: user_symlink
       tags: user_symlink
-    - role: galaxy-ssh_config
+    - role: galaxy-ssh-config
       tags: ssh_config
     - role: galaxy-user-settings
       tags: vim-tmux
+    - role: galaxy-lxterminal
+      tags: lxterminal
