@@ -3,17 +3,17 @@
 - hosts: localhost
   #gather_facts: False
   roles:
-    - role: gitconfig
-      tags: gitconfig
-    - role: galaxy-cent-openbox-config
-      tags: openbox
-    - role: user_symlink
-      tags: user_symlink
-    - role: galaxy-ssh-config
-      tags: ssh_config
     - role: galaxy-user-settings
       tags: vim-tmux
     - role: galaxy-lxterminal
       tags: lxterminal
     - role: galaxy-cent-scripts
       tags: cent-scripts
+    - role: gitconfig
+      tags: gitconfig
+    - role: galaxy-ssh-config
+      tags: ssh_config
+    - role: galaxy-cent-openbox-config
+      tags: openbox
+    - role: user_symlink
+      tags: user_symlink

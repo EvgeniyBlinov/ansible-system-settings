@@ -1,6 +1,7 @@
 #  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
 ---
-ansible_python_interpreter: "{{ playbook_dir }}/.python/bin/python"
+#ansible_python_interpreter: "{{ playbook_dir }}/.python/bin/python"
+ansible_python_interpreter: "/usr/bin/python3"
 ansible_connection: local
 ########################################################################
 gitconfig__name: "{{ lookup('ENV', 'GITCONFIG__NAME') | default('Evgeniy Blinov', True) }}"
