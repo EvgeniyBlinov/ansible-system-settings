@@ -4,6 +4,8 @@
   #gather_facts: False
   roles:
     - role: galaxy-user-settings
+      vars:
+        user_settings__profile_var__VIMDIR: vim-blinov
       tags: vim-tmux
     - role: galaxy-lxterminal
       tags: lxterminal

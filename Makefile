@@ -101,7 +101,9 @@ $(ANSIBLE_VAULT_PASSWORD_FILE):
 
 .PHONY: ansible-requirements
 ansible-requirements:
+	test -f roles/requirements.yml && \
 	source .python/bin/activate && \
-	ansible-galaxy install -r roles/requirements.yml
+	ansible-galaxy install --force -r roles/requirements.yml || \
+	echo DONE
 
 ########################################################################
