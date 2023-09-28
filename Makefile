@@ -21,8 +21,7 @@ build:                       \
 		requirements         \
 		.python/bin/activate \
 		python-requrements   \
-		$(ANSIBLE_VAULT_PASSWORD_FILE) \
-		ansible-requirements
+		$(ANSIBLE_VAULT_PASSWORD_FILE)
 
 
 .env:
@@ -81,29 +80,19 @@ requirements:
 	fi
 
 .python/bin/activate:
-	python3 -m venv .python &&     \
-	source .python/bin/activate && \
-	pip3 install --upgrade pip &&  \
-	pip3 install $$(cat ./requirements.txt*)
+	python3 -m venv .python
 
 .PHONY: python-requrements
-python-requrements:
+python-requrements: \
+		.python/bin/activate
 	source .python/bin/activate && \
 	pip3 install --upgrade pip && \
 	pip3 install $$(cat ./requirements.txt*)
+
 
 $(ANSIBLE_VAULT_PASSWORD_FILE):
 	test -d $$(dirname $@) || mkdir -p $$(dirname $@)
 	cat /dev/urandom |head|base64 -w0|tr -dc _A-Z-a-z-0-9|head -c 64 > $@
 	chmod 600 $@
-
-########################################################################
-
-.PHONY: ansible-requirements
-ansible-requirements:
-	test -f roles/requirements.yml && \
-	source .python/bin/activate && \
-	ansible-galaxy install --force -r roles/requirements.yml || \
-	echo DONE
 
 ########################################################################

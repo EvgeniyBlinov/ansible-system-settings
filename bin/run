@@ -15,7 +15,8 @@ set +o allexport
 
 ########################################################################
 INVENTORY_NAME=${INVENTORY_NAME:-localhost}
-INVENTORY=${INVENTORY:-inventory/${INVENTORY_NAME}/hosts.ini}
+INVENTORY_PATH=inventory
+INVENTORY=${INVENTORY:-${INVENTORY_PATH}/${INVENTORY_NAME}/hosts.yml}
 PLAYBOOK_NAME="$1"
 
 FIRST_ARG_EXT=${PLAYBOOK_NAME##*.}
@@ -35,7 +36,7 @@ else
         time                                                           \
         ansible-playbook                                               \
         -i ${INVENTORY}                                                \
-        -e inventory_dir="$(pwd)/inventory/${INVENTORY_NAME}"          \
+        -e inventory_dir="$(pwd)/${INVENTORY_PATH}/${INVENTORY_NAME}"  \
         -e ansible_root_dir="$(pwd)"                                   \
         "$@" &&                                                        \
         deactivate 'destructive'
